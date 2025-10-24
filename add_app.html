@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>إضافة تطبيق - AI Apps</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="logo">AI-Apps</a>
+      <div class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="aboutus.html">من نحن</a>
+        <a href="apps.html">التطبيقات</a>
+        <a href="add_app.html">إضافة تطبيق</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container fade-in">
+    <section class="card">
+      <h1>إدخال معلومات تطبيق جديد</h1>
+      <form id="addAppForm" novalidate>
+        <label>اسم التطبيق (بالإنكليزية - أحرف فقط، بدون فراغات)</label>
+        <input type="text" id="name" placeholder="مثال: ChatGPT" required>
+
+        <label>اسم الشركة المصنعة (بالإنكليزية - أحرف فقط)</label>
+        <input type="text" id="company" placeholder="مثال: OpenAI" required>
+
+        <label>رابط الموقع (URL)</label>
+        <input type="url" id="url" placeholder="https://example.com" required>
+
+        <label>مجاني؟</label>
+        <select id="free" required>
+          <option value="">-- اختر --</option>
+          <option value="نعم">نعم</option>
+          <option value="جزئياً">جزئياً</option>
+          <option value="لا">لا</option>
+        </select>
+
+        <label>مجال الاستخدام</label>
+        <select id="domain" required>
+          <option value="">-- اختر --</option>
+          <option>Education</option>
+          <option>Development</option>
+          <option>Creative</option>
+          <option>Research</option>
+          <option>E-Commerce</option>
+        </select>
+
+        <label>رابط فيديو (اختياري - رابط iframe لإظهار فيديو)</label>
+        <input type="url" id="media" placeholder="رابط فيديو iframe أو رابط صفحة فيديو">
+
+        <label>وصف مختصر</label>
+        <textarea id="description" rows="4" required placeholder="وصف مختصر عن التطبيق"></textarea>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">إرسال</button>
+          <button type="reset" class="btn">إعادة</button>
+        </div>
+
+        <div id="formMsg" class="form-msg"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - AI-Apps</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('#addAppForm').on('submit', function(e){
+        e.preventDefault();
+        $('#formMsg').text('');
+        // validations
+        const name = $('#name').val().trim();
+        const company = $('#company').val().trim();
+        const url = $('#url').val().trim();
+        const free = $('#free').val();
+        const domain = $('#domain').val();
+        const description = $('#description').val().trim();
+        const media = $('#media').val().trim();
+
+        const alphaNoSpace = /^[A-Za-zÀ-ÖØ-öø-ÿ]+$/; // letters only
+        if(!alphaNoSpace.test(name)){
+          $('#formMsg').text('خطأ: اسم التطبيق يجب أن يكون أحرف إنكليزية فقط وبدون فراغات.');
+          return;
+        }
+        if(!alphaNoSpace.test(company)){
+          $('#formMsg').text('خطأ: اسم الشركة يجب أن يكون أحرف إنكليزية فقط.');
+          return;
+        }
+        try {
+          new URL(url);
+        } catch(err){
+          $('#formMsg').text('خطأ: أدخل رابط موقع صحيح (URL).');
+          return;
+        }
+        if(!free || !domain || description.length<10){
+          $('#formMsg').text('خطأ: تأكد من تعبئة جميع الحقول وإدخال وصف لا يقل عن 10 أحرف.');
+          return;
+        }
+
+        // prepare app object
+        const app = {
+          name, company, url, free, domain, description,
+          logo: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><rect rx='20' ry='20' width='120' height='120' fill='%23222' /><text x='50%' y='55%' font-size='14' fill='%23fff' text-anchor='middle' font-family='Arial'>"+encodeURIComponent(name)+"</text></svg>",
+          media: media
+        };
+        const apps = JSON.parse(localStorage.getItem('ai_apps') || '[]');
+        apps.push(app);
+        localStorage.setItem('ai_apps', JSON.stringify(apps));
+        $('#formMsg').text('تم إضافة التطبيق بنجاح! جاري التحويل إلى صفحة عرض التطبيقات...');
+        setTimeout(()=>{ window.location.href = 'apps.html'; }, 900);
+      });
+
+      $('#addAppForm').on('reset', function(){
+        $('#formMsg').text('');
+      });
+    });
+  </script>
+</body>
+</html>

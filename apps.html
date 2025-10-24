@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>التطبيقات - AI Apps</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .btn.show-details {
+      background: #5f35a924;
+      color: white;
+      border: 1px solid #7c3aed;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn.show-details:hover {
+      background: #fff;
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="logo">AI-Apps</a>
+      <div class="nav-links">
+        <a href="index.html">الرئيسية</a>
+        <a href="aboutus.html">من نحن</a>
+        <a href="apps.html">التطبيقات</a>
+        <a href="add_app.html">إضافة تطبيق</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container fade-in">
+    <section class="card">
+      <h1>قائمة التطبيقات</h1>
+      <p>اضغط على زر "إظهار التفاصيل" لكل تطبيق لعرض الشعار، صورة، وصف مختصر وفيديو إن وُجد.</p>
+      <div id="appsTable" class="apps-table"></div>
+      <p class="hint">ملاحظة: يمكن إضافة تطبيق جديد من صفحة "إضافة تطبيق".</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 - AI-Apps</p>
+  </footer>
+
+  <!-- jQuery and your custom JS file -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="myFunctions.js"></script>
+</body>
+</html>
